@@ -1,3 +1,6 @@
+const messageList = document.querySelector("ul");
+const messageForm = document.querySelector("form");
+const messageInput = document.querySelector("input");
 const socket = new WebSocket(`ws://${window.location.host}`);
 
 socket.addEventListener("open", () => {
@@ -12,6 +15,8 @@ socket.addEventListener("close", () => {
   console.log("Disconnected from Server");
 });
 
-setTimeout(() => {
-  socket.send("Hello from browser!");
-}, 10000);
+messageForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  socket.send(messageInput.value);
+  messageInput.value = "";
+});
